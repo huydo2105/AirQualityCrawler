@@ -11,9 +11,6 @@ class AirqualityontarioSpider(scrapy.Spider):
                 #   "http://www.airqualityontario.com/history/searchResults.php?page=_search&s_categoryId=Academic&s_stationId=51002,51001&s_pollutantId=9&s_startDate=01/01/2021&s_endDate=12/31/2021&s_reportType=HTML"]
 
     def parse(self, response):
-        f = open("parse_url.txt", "a")
-        f.write("------------------------------\n")
-        f.close()
         for url in self.start_urls:
             yield scrapy.Request(url, callback=self.parse_url,
                                  dont_filter=True)
