@@ -1,5 +1,5 @@
 import scrapy
-
+from datetime import datetime
 class AirqualityontarioSpider(scrapy.Spider):
     name = 'o3'
     allowed_domains = ['www.airqualityontario.com']
@@ -16,57 +16,22 @@ class AirqualityontarioSpider(scrapy.Spider):
         rows = response.xpath("//table/tbody/tr")
         # pollution = response.xpath("//h1/text()").get()
         for row in rows:
-            date = row.xpath(".//td[2]/text()").get()
-            h01 = row.xpath(".//td[3]/text()").get()
-            h02 = row.xpath(".//td[4]/text()").get()
-            h03 = row.xpath(".//td[5]/text()").get()
-            h04 = row.xpath(".//td[6]/text()").get()
-            h05 = row.xpath(".//td[7]/text()").get()
-            h06 = row.xpath(".//td[8]/text()").get()
-            h07 = row.xpath(".//td[9]/text()").get()
-            h08 = row.xpath(".//td[10]/text()").get()
-            h09 = row.xpath(".//td[11]/text()").get()
-            h10 = row.xpath(".//td[12]/text()").get()
-            h11 = row.xpath(".//td[13]/text()").get()
-            h12 = row.xpath(".//td[14]/text()").get()
-            h13 = row.xpath(".//td[15]/text()").get()
-            h14 = row.xpath(".//td[16]/text()").get()
-            h15 = row.xpath(".//td[17]/text()").get()
-            h16 = row.xpath(".//td[18]/text()").get()
-            h17 = row.xpath(".//td[19]/text()").get()
-            h18 = row.xpath(".//td[20]/text()").get()
-            h19 = row.xpath(".//td[21]/text()").get()
-            h20 = row.xpath(".//td[22]/text()").get()
-            h21 = row.xpath(".//td[23]/text()").get()
-            h22 = row.xpath(".//td[24]/text()").get()
-            h23 = row.xpath(".//td[25]/text()").get()
-            h24 = row.xpath(".//td[26]/text()").get()
-            yield {
-                # "pollution": pollution,
-                "date": date,
-                "h01": h01,
-                "h02": h02,
-                "h03": h03,
-                "h04": h04,
-                "h05": h05,
-                "h06": h06,
-                "h07": h07,
-                "h08": h08,
-                "h09": h09,
-                "h10": h10,
-                "h11": h11,
-                "h12": h12,
-                "h13": h13,
-                "h14": h14,
-                "h15": h15,
-                "h16": h16,
-                "h17": h17,
-                "h18": h18,
-                "h19": h19,
-                "h20": h20,
-                "h21": h21,
-                "h22": h22,
-                "h23": h23,
-                "h24": h24,
-            }
+            timestamp = row.xpath(".//td[2]/text()").get()
+            date = datetime.strptime(timestamp, "%Y-%m-%d") #convert VN timezone to Ottawa
+            month = date.month
+            day = date.day
+            td_list = [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
+            for i in td_list:
+                o3 = row.xpath(".//td[" + str(i) + "]/text()").get()
+                hour = response.xpath("//table/thead/tr/th[" + str(i) + "]/text()").get()
+                if int(hour[1:]) < 10:
+                    hour = hour[-1]
+                else:
+                    hour = hour[1:]
+                yield {
+                    "hour": hour,
+                    "day": day,
+                    "month": month,
+                    "o3": o3,
+                }
        
