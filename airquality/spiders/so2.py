@@ -26,7 +26,10 @@ class AirqualityontarioSpider(scrapy.Spider):
                 if int(hour[1:]) < 10:
                     hour = hour[-1]
                 else:
-                    hour = hour[1:]
+                    if int(hour[1:]) == 24:
+                        hour = 0
+                    else:
+                        hour = hour[1:]
                 yield {
                     "hour": hour,
                     "day": day,
