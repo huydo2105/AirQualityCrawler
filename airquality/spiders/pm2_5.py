@@ -34,6 +34,6 @@ class AirqualityontarioSpider(scrapy.Spider):
                     "hour": hour,
                     "day": day,
                     "month": month,
-                    "pm2_5": pm2_5,
+                    "pm2.5": pm2_5,
                 }
        
