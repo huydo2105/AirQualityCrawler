@@ -25,12 +25,9 @@ class AirqualityontarioSpider(scrapy.Spider):
                 o3 = row.xpath(".//td[" + str(i) + "]/text()").get()
                 hour = response.xpath("//table/thead/tr/th[" + str(i) + "]/text()").get()
                 if int(hour[1:]) < 10:
-                    hour = hour[-1]
+                    hour = int(hour[-1]) - 1
                 else:
-                    if int(hour[1:]) == 24:
-                        hour = 0
-                    else:
-                        hour = hour[1:]
+                    hour = int(hour[1:]) - 1 
                 yield {
                     "hour": hour,
                     "day": day,
