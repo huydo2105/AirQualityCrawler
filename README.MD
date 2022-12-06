@@ -8,4 +8,4 @@
 ```
 cd airquality ; bash script_airquality.sh
 ```
-5. [Final csv file](airquality\csv\data.csv)
+5. [Final csv file](csv/data.csv)
