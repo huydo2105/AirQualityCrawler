@@ -79,8 +79,8 @@ class WeatherOttawaSpider(scrapy.Spider):
             pressure = td_list[7].xpath(".//lib-display-unit/span/span/text()").get()
             precip = td_list[9].xpath(".//lib-display-unit/span/span/text()").get()
             yield {
-                "hour": hour,
                 "minute": minute,
+                "hour": hour,
                 "day": day,
                 "month": month,
                 "temp": temp,
