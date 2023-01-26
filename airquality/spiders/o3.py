@@ -29,6 +29,7 @@ class AirqualityontarioSpider(scrapy.Spider):
                 else:
                     hour = int(hour[1:]) - 1 
                 yield {
+                    "minute": 0,
                     "hour": hour,
                     "day": day,
                     "month": month,
